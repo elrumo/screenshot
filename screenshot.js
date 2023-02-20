@@ -19,6 +19,7 @@ exports.screenshot = async (req, res) => {
 
     const width = req.query.width ? parseInt(req.query.width, 10) : 1280;
     const height = req.query.height ? parseInt(req.query.height, 10) : 800;
+    const delay = req.query.delay ? parseInt(req.query.delay, 10) : 100;
   
     if(!browser) {
         browser = await puppeteer.launch();
@@ -36,7 +37,9 @@ exports.screenshot = async (req, res) => {
 
     let imageBuffer
     try {
-        imageBuffer = await page.screenshot();
+        setTimeout(() => {
+            imageBuffer = await page.screenshot();
+        }, delay);
     } catch(e) {
         return res.send('Unable to take screenshot');
     }
